@@ -21,13 +21,13 @@ void split(Node*& in, Node*& odds, Node*& evens)
 // WRITE YOUR CODE HERE
   if (in == NULL){
     return;
-  }
+  } // base case
   else{
     if ((in->value)%2 == 0){
-      evens=in; 
-      in=in->next;
+      evens=in; //distribute memories
+      in=in->next; //so that at the end the original list is not preserved
       evens->next=NULL;
-      split(in,odds,evens->next);
+      split(in,odds,evens->next); //recursive
     }
     else{
       odds=in;

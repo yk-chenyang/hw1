@@ -26,25 +26,25 @@ size_t ULListStr::size() const
 
 // WRITE YOUR CODE HERE
 void ULListStr::push_back(const std::string& val){
-  if(tail_==NULL){
-    Item* myItem = new Item;
+  if(tail_==NULL){ //if absolutely nothing
+    Item* myItem = new Item; //allocates a new node
     head_=myItem;
-    tail_=myItem;
+    tail_=myItem; //assigns pointers
     myItem->val[0]=val;
     myItem->last++;
     size_++;
   }
-  else if(tail_->last == 10){
+  else if(tail_->last == 10){ //if we need to allocate a new node
     Item* nextItem = new Item;
     tail_->next=nextItem;
     nextItem->prev=tail_;
     nextItem->next=NULL;
-    tail_=nextItem;
+    tail_=nextItem; //adjusts pointers 
     nextItem->val[0]=val;
     nextItem->last++;
     size_++;
   }
-  else{
+  else{ //normal case where we have space
     tail_->val[tail_->last]=val;
     tail_->last++;
     size_++;
@@ -52,7 +52,7 @@ void ULListStr::push_back(const std::string& val){
 }
 
 void ULListStr::push_front(const std::string& val){
-  if(head_==NULL){
+  if(head_==NULL){ //if absolutely nothing
     Item* myItem = new Item;
     head_=myItem;
     tail_=myItem;
@@ -60,7 +60,7 @@ void ULListStr::push_front(const std::string& val){
     myItem->last++;
     size_++;
   }
-  else if(head_->first == 0){
+  else if(head_->first == 0){ //if we need to allocate a new node
     Item* prevItem = new Item;
     head_->prev=prevItem;
     prevItem->prev=NULL;
@@ -71,7 +71,7 @@ void ULListStr::push_front(const std::string& val){
     prevItem->first=9;
     size_++;
   }
-  else{
+  else{ //normal case where we have space
     head_->val[head_->first-1]=val;
     head_->first--;
     size_++;
@@ -79,36 +79,36 @@ void ULListStr::push_front(const std::string& val){
 }
 
 void ULListStr::pop_back(){
-  if(size_==0){
+  if(size_==0){ //nothing in the list
     return;
   }
-  else if(head_==tail_){
-    if(size_==1){
+  else if(head_==tail_){ //there's only one node in the list
+    if(size_==1){ //there's only one last element in the node
       delete tail_;
       size_--;
       head_=NULL;
       tail_=NULL;
     }
-    else{
+    else{ //there're many elements in the node
       tail_->last--;
       size_--;
     }
   }
-  else{
-    if(tail_->last==1){
+  else{ //there're many nodes
+    if(tail_->last==1){ //there's only one element in the node
       size_--;
       tail_=tail_->prev;
       delete tail_->next;
       tail_->next=NULL;
     }
-    else{
+    else{ //there're many elements in the node
       tail_->last--;
       size_--;
     }
   }
 }
 
-void ULListStr::pop_front(){
+void ULListStr::pop_front(){ //similar as pop_back
   if(size_==0){
     return;
   }
@@ -151,18 +151,18 @@ std::string* ULListStr::getValAtLoc(size_t loc) const{
     return NULL;
   }
   else{
-    Item* tempP = head_;
-    std::string* tempS = head_->val + head_->first;
+    Item* tempP = head_; //node tracer
+    std::string* tempS = head_->val + head_->first; //element tracer
     size_t idx = head_->first;
     size_t count = 0;
     while(count<loc){
-      if(idx==9){
-        tempP=tempP->next;
+      if(idx==9){ //if we need to step over to the next node
+        tempP=tempP->next; //node adapter
         idx=0;
-        tempS=tempP->val;
+        tempS=tempP->val; //element adapter
         count++;
       }
-      else{
+      else{ //if we're in the same node
         idx++;
         tempS++;
         count++;
